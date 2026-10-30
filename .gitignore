@@ -1,0 +1,65 @@
+# =============================================================================
+# Python
+# =============================================================================
+# Virtual environments — never commit these
+venv/
+env/
+.env
+*.env
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+*.egg-info/
+dist/
+build/
+
+# =============================================================================
+# Credentials & Secrets — NEVER commit these
+# =============================================================================
+# Firebase service account key
+backend/core/firebase-service-account.json
+*service-account*.json
+*serviceAccount*.json
+
+# Any .env files with real credentials
+.env
+.env.*
+!.env.example
+
+# =============================================================================
+# AI / ML Models — typically large binary files
+# =============================================================================
+backend/ml_models/*.h5
+backend/ml_models/*.pt
+backend/ml_models/*.pth
+backend/ml_models/*.tflite
+backend/ml_models/*.onnx
+backend/ml_models/*.pkl
+backend/ml_models/*.joblib
+
+# =============================================================================
+# Node.js / Frontend
+# =============================================================================
+node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+# =============================================================================
+# IDE & OS Files
+# =============================================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# =============================================================================
+# Logs
+# =============================================================================
+*.log
+logs/

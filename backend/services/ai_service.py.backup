@@ -1,0 +1,136 @@
+"""
+FruitQualityAI — AI Service (Placeholder)
+==========================================
+This module is the integration point for your trained fruit classification model.
+
+CURRENT STATE:
+    The AI model has not been integrated yet. All functions below are stubs
+    that return a clear "not available" status without inventing any results.
+
+WHEN YOUR MODEL IS READY:
+    1. Place your model file (e.g. model.h5, model.pt) in backend/ml_models/
+    2. Update MODEL_PATH in your .env file
+    3. Implement the load_model() and analyze_image() functions below
+    4. Remove or update the NOT_LOADED guards
+
+SUPPORTED MODEL FORMATS (planned):
+    - TensorFlow / Keras (.h5)
+    - PyTorch (.pt / .pth)
+    - TensorFlow Lite (.tflite)
+    - ONNX (.onnx)
+"""
+
+import os
+from core.config import settings
+
+# ---------------------------------------------------------------------------
+# Module-level model state
+# The model is None until explicitly loaded.
+# ---------------------------------------------------------------------------
+_model = None
+_model_loaded: bool = False
+
+
+def load_model() -> bool:
+    """
+    Attempt to load the trained model from the path specified in .env.
+
+    Returns:
+        True if the model loaded successfully, False otherwise.
+
+    TODO: Implement this function when your model is ready.
+    """
+    global _model, _model_loaded
+
+    model_path = settings.model_path
+
+    if not os.path.exists(model_path):
+        print(
+            f"[AI Service] Model file not found at '{model_path}'. "
+            "AI predictions will not be available. "
+            "See README.md → Step 5 to add your model."
+        )
+        _model_loaded = False
+        return False
+
+    # -----------------------------------------------------------------
+    # TODO: Uncomment and adapt the loader for your model format.
+    #
+    # --- Keras / TensorFlow ---
+    # import tensorflow as tf
+    # _model = tf.keras.models.load_model(model_path)
+    #
+    # --- PyTorch ---
+    # import torch
+    # _model = torch.load(model_path, map_location="cpu")
+    # _model.eval()
+    #
+    # --- TensorFlow Lite ---
+    # import tensorflow as tf
+    # interpreter = tf.lite.Interpreter(model_path=model_path)
+    # interpreter.allocate_tensors()
+    # _model = interpreter
+    # -----------------------------------------------------------------
+
+    print(f"[AI Service] Model loaded from '{model_path}'.")
+    _model_loaded = True
+    return True
+
+
+def is_model_loaded() -> bool:
+    """Returns True if the model has been loaded and is ready for inference."""
+    return _model_loaded
+
+
+def analyze_image(image_bytes: bytes) -> dict:
+    """
+    Run inference on an uploaded image.
+
+    Args:
+        image_bytes: Raw bytes of the uploaded image file.
+
+    Returns:
+        A dict with keys: model_loaded, results, fruit_count, message.
+
+    TODO: Replace the stub return with real inference logic.
+    """
+    if not _model_loaded:
+        # Honest response — no fake predictions
+        return {
+            "model_loaded": False,
+            "fruit_count": 0,
+            "results": [],
+            "message": (
+                "AI model is not loaded. "
+                "Please add your trained model to backend/ml_models/ "
+                "and update MODEL_PATH in your .env file."
+            ),
+        }
+
+    # -----------------------------------------------------------------
+    # TODO: Implement real inference here.
+    #
+    # Steps (adapt to your model):
+    #   1. Decode image_bytes into a PIL Image or NumPy array
+    #   2. Preprocess (resize, normalize) to match your model's input shape
+    #   3. Run inference using _model
+    #   4. Post-process raw output into fruit_type, quality, confidence
+    #   5. Return structured results
+    #
+    # Example return shape:
+    # return {
+    #     "model_loaded": True,
+    #     "fruit_count": 3,
+    #     "results": [
+    #         {"fruit_type": "Apple", "quality": "Healthy", "confidence": 0.95},
+    #         {"fruit_type": "Apple", "quality": "Damaged", "confidence": 0.87},
+    #         {"fruit_type": "Mango", "quality": "Rotten",  "confidence": 0.91},
+    #     ],
+    #     "message": "Inspection complete.",
+    # }
+    # -----------------------------------------------------------------
+
+    raise NotImplementedError(
+        "analyze_image() is not yet implemented. "
+        "Add your inference code in backend/services/ai_service.py."
+    )
